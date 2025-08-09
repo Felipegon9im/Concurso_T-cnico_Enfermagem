@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Estudos - Concurso Técnico de Enfermagem Biguaçu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .content-area h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1e3a8a; /* Dark Blue */
+            border-bottom: 2px solid #dbeafe; /* Light Blue */
+            padding-bottom: 0.5rem;
+        }
+        .content-area h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1d4ed8; /* Medium Blue */
+        }
+        .content-area p, .content-area li {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .content-area ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+        }
+        .content-area ol {
+            list-style-type: decimal;
+            padding-left: 2rem;
+        }
+        .content-area strong {
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <!-- Main Menu -->
+        <div id="main-menu">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-blue-900">Guia de Estudos Completo</h1>
+                <p class="text-lg text-gray-600 mt-2">Concurso Técnico de Enfermagem - Prefeitura de Biguaçu</p>
+            </header>
+            <div id="topic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Topics will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Study Module -->
+        <div id="study-module" class="hidden">
+            <header class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h1 id="topic-title" class="text-3xl font-bold text-blue-900"></h1>
+                <button id="back-to-menu-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors w-full sm:w-auto">
+                    Voltar ao Menu
+                </button>
+            </header>
+            
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <!-- Content Area -->
+                <div id="topic-content" class="content-area mb-8"></div>
+
+                <!-- Quiz Area -->
+                <div class="border-t-2 border-gray-200 pt-6">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">Teste seu Conhecimento</h2>
+                    <form id="quiz-form">
+                        <div id="quiz-container" class="space-y-6"></div>
+                        <button type="submit" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:bg-green-700 transition-colors text-lg">
+                            Finalizar e Corrigir
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="results-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-blue-900 text-center">Resultado do Quiz</h2>
+                </div>
+                <div id="results-content" class="p-6 md:p-8 overflow-y-auto">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+                <div class="p-4 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row justify-center gap-4">
+                     <button id="retry-quiz-btn" class="bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">Tentar Novamente</button>
+                     <button id="menu-from-results-btn" class="bg-gray-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-gray-700 transition-colors">Voltar ao Menu</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        // This object holds all the study content and quiz questions.
+        const studyData = {
+            sus: {
+                title: 'Sistema Único de Saúde (SUS)',
+                content: `
+                    <h2>Fundamentos, Objetivos e Diretrizes do SUS</h2>
+                    <p>O Sistema Único de Saúde (SUS) foi criado pela <strong>Constituição Federal de 1988</strong> e é regulamentado pelas Leis nº 8.080/90 e nº 8.142/90. Ele representa uma das maiores e mais complexas políticas de saúde pública do mundo.</p>
+                    <h3>Princípios Doutrinários (Ideológicos):</h3>
+                    <ul>
+                        <li><strong>Universalidade:</strong> A saúde é um direito de todos e dever do Estado. O acesso aos serviços de saúde deve ser garantido a todas as pessoas, sem qualquer tipo de preconceito ou privilégio.</li>
+                        <li><strong>Equidade:</strong> Tratar desigualmente os desiguais, investindo mais onde a carência é maior. O objetivo é diminuir as desigualdades, oferecendo mais a quem mais precisa.</li>
+                        <li><strong>Integralidade:</strong> Considera a pessoa como um todo, atendendo a todas as suas necessidades. Envolve ações de promoção da saúde, prevenção de doenças, tratamento e reabilitação.</li>
+                    </ul>
+                    <h3>Princípios Organizativos (Operacionais):</h3>
+                    <ul>
+                        <li><strong>Regionalização e Hierarquização:</strong> Organização dos serviços em níveis de complexidade (primário, secundário, terciário) dentro de uma área geográfica (região de saúde).</li>
+                        <li><strong>Descentralização:</strong> Redistribuição de poder e responsabilidades entre os três níveis de governo (União, Estados e Municípios). A responsabilidade pela saúde é compartilhada.</li>
+                        <li><strong>Participação da Comunidade (Controle Social):</strong> A sociedade participa da gestão do SUS através dos Conselhos e Conferências de Saúde.</li>
+                    </ul>
+                    <h2>Gestão, Financiamento e Controle Social</h2>
+                    <p>A gestão do SUS é <strong>compartilhada</strong> entre a União, os Estados e os Municípios. O financiamento é tripartite. O <strong>Controle Social</strong>, garantido pela Lei nº 8.142/90, é exercido através das <strong>Conferências de Saúde</strong> e dos <strong>Conselhos de Saúde</strong> (composição paritária: 50% de usuários, 25% de trabalhadores, e 25% de gestores/prestadores).</p>
+                    <h2>Modelo de Assistência no SUS</h2>
+                    <p>O SUS organiza a assistência em uma rede hierarquizada e regionalizada.</p>
+                    <h3>Níveis de Assistência:</h3>
+                    <ul>
+                        <li><strong>Atenção Primária (ou Básica):</strong> É a porta de entrada preferencial. Foco na promoção e prevenção. Ex: Unidades Básicas de Saúde (UBS).</li>
+                        <li><strong>Atenção Secundária:</strong> Média complexidade. Ex: Atendimento com especialistas, ambulatórios.</li>
+                        <li><strong>Atenção Terciária:</strong> Alta complexidade. Ex: Transplantes, cirurgias cardíacas.</li>
+                    </ul>
+                    <p>A <strong>Humanização do Cuidado (HumanizaSUS)</strong> é uma política que busca colocar o usuário no centro do cuidado, valorizando a escuta, o acolhimento e o respeito.</p>
+                `,
+                quiz: [
+                    { question: "Qual princípio do SUS garante que a saúde é um direito de todos e dever do Estado?", options: ["Equidade", "Integralidade", "Universalidade", "Descentralização"], answer: "Universalidade", explanation: "A Universalidade estabelece que o acesso aos serviços de saúde deve ser garantido a todas as pessoas, sem distinção." },
+                    { question: "A participação da comunidade na gestão do SUS é garantida por qual princípio?", options: ["Hierarquização", "Participação da Comunidade (Controle Social)", "Regionalização", "Equidade"], answer: "Participação da Comunidade (Controle Social)", explanation: "O Controle Social é o princípio que assegura a participação popular na gestão do sistema de saúde, conforme a Lei nº 8.142/90." },
+                    { question: "A porta de entrada preferencial do SUS corresponde a qual nível de assistência?", options: ["Atenção Terciária", "Atenção Secundária", "Atenção Especializada", "Atenção Primária"], answer: "Atenção Primária", explanation: "A Atenção Primária, ou Básica, é o primeiro nível de contato do usuário com o sistema." },
+                    { question: "A Lei Orgânica da Saúde que dispõe sobre as condições para a promoção, proteção e recuperação da saúde é a:", options: ["Lei nº 8.142/90", "Lei nº 8.080/90", "Constituição Federal de 1988", "Norma Operacional Básica 96"], answer: "Lei nº 8.080/90", explanation: "A Lei 8.080/90 é a principal lei que regulamenta o SUS, detalhando sua organização e funcionamento." },
+                    { question: "Como é a composição dos Conselhos de Saúde, segundo a Lei nº 8.142/90?", options: ["50% gestores, 25% trabalhadores, 25% usuários", "50% usuários, 25% trabalhadores, 25% gestores/prestadores", "33% usuários, 33% trabalhadores, 34% gestores", "100% usuários"], answer: "50% usuários, 25% trabalhadores, 25% gestores/prestadores", explanation: "A composição dos Conselhos de Saúde é paritária, com 50% de representação dos usuários, garantindo o controle social." },
+                    { question: "O princípio da Equidade no SUS significa:", options: ["Atender a todos da mesma forma", "Oferecer mais a quem mais precisa para diminuir desigualdades", "Garantir apenas o tratamento de doenças", "Organizar os serviços por região"], answer: "Oferecer mais a quem mais precisa para diminuir desigualdades", explanation: "Equidade é tratar os desiguais de forma desigual, na medida de suas desigualdades, buscando a justiça social." },
+                    { question: "A gestão do SUS é de responsabilidade:", options: ["Apenas da União", "Apenas dos Municípios", "Apenas dos Estados", "Da União, dos Estados e dos Municípios, de forma compartilhada"], answer: "Da União, dos Estados e dos Municípios, de forma compartilhada", explanation: "A gestão do SUS é descentralizada e compartilhada entre as três esferas de governo." },
+                    { question: "A Política Nacional de Humanização (HumanizaSUS) visa principalmente:", options: ["Aumentar o número de hospitais", "Valorizar usuários e trabalhadores no processo de produção de saúde", "Comprar equipamentos de alta tecnologia", "Reduzir o financiamento da saúde"], answer: "Valorizar usuários e trabalhadores no processo de produção de saúde", explanation: "O HumanizaSUS foca na melhoria das relações, no acolhimento e na gestão participativa para qualificar o cuidado." }
+                ]
+            },
+            epidemiologia: {
+                title: 'Epidemiologia e Sistemas de Informação',
+                content: `
+                    <h2>Bases Conceituais da Epidemiologia</h2>
+                    <p>A <strong>Epidemiologia</strong> é a ciência que estuda a distribuição e os determinantes das doenças e agravos à saúde em populações humanas.</p>
+                    <ul>
+                        <li><strong>Endemia:</strong> Ocorrência de uma doença com frequência esperada em uma região.</li>
+                        <li><strong>Epidemia:</strong> Aumento súbito e inesperado do número de casos de uma doença.</li>
+                        <li><strong>Pandemia:</strong> Uma epidemia que se espalha por vários continentes.</li>
+                        <li><strong>Surto:</strong> Aumento repentino de casos em uma área muito restrita.</li>
+                    </ul>
+                    <h2>Indicadores de Saúde</h2>
+                    <p>São medidas que permitem avaliar a situação de saúde de uma população. Principais tipos: Mortalidade (ex: Coeficiente de Mortalidade Infantil) e Morbidade (ex: Incidência e Prevalência).</p>
+                    <h2>Sistemas de Informação em Saúde (SIS)</h2>
+                    <p>São ferramentas para a coleta e análise de dados. Principais sistemas:</p>
+                    <ul>
+                        <li><strong>SIM:</strong> Sistema de Informações sobre Mortalidade.</li>
+                        <li><strong>SINASC:</strong> Sistema de Informações sobre Nascidos Vivos.</li>
+                        <li><strong>SINAN:</strong> Sistema de Informação de Agravos de Notificação (dengue, tuberculose, etc.).</li>
+                        <li><strong>SIH/SUS:</strong> Sistema de Informações Hospitalares.</li>
+                    </ul>
+                `,
+                quiz: [
+                    { question: "O aumento súbito e inesperado do número de casos de uma doença em uma população é definido como:", options: ["Endemia", "Pandemia", "Surto", "Epidemia"], answer: "Epidemia", explanation: "Epidemia é o termo usado para um aumento inesperado de casos em uma área ou população específica." },
+                    { question: "Qual sistema de informação do SUS é utilizado para registrar os dados das internações hospitalares?", options: ["SINAN", "SIM", "SIH/SUS", "SINASC"], answer: "SIH/SUS", explanation: "O Sistema de Informações Hospitalares (SIH/SUS) é o responsável por coletar e processar os dados das internações." },
+                    { question: "O Coeficiente de Mortalidade Infantil mede o número de óbitos em menores de 1 ano por:", options: ["1.000 habitantes", "1.000 nascidos vivos", "100.000 habitantes", "100 nascidos vivos"], answer: "1.000 nascidos vivos", explanation: "Este indicador reflete as condições de saúde, saneamento e assistência à saúde materno-infantil de uma população." },
+                    { question: "Qual sistema de informação é utilizado para a notificação compulsória de doenças como dengue e tuberculose?", options: ["SIM", "SINASC", "SIH", "SINAN"], answer: "SINAN", explanation: "O SINAN é o sistema que alimenta os dados sobre a ocorrência de doenças e agravos de notificação compulsória em todo o território nacional." },
+                    { question: "A medida que expressa o número de casos novos de uma doença em uma população em um determinado período de tempo é chamada de:", options: ["Prevalência", "Incidência", "Mortalidade", "Letalidade"], answer: "Incidência", explanation: "A incidência mede a frequência de casos novos, indicando o risco de adoecer em uma população." }
+                ]
+            },
+            procedimentos: {
+                title: 'Técnicas e Procedimentos de Enfermagem',
+                content: `
+                    <h2>Verificação de Sinais Vitais (SSVV)</h2>
+                    <ul>
+                        <li><strong>Temperatura (T):</strong> Normal: 36,1°C a 37,2°C (axilar).</li>
+                        <li><strong>Pulso (P) ou Frequência Cardíaca (FC):</strong> Normal em adultos: 60 a 100 bpm.</li>
+                        <li><strong>Respiração (R) ou Frequência Respiratória (FR):</strong> Normal em adultos: 12 a 20 rpm.</li>
+                        <li><strong>Pressão Arterial (PA):</strong> Ótimo: 120/80 mmHg.</li>
+                        <li><strong>Dor:</strong> O 5º sinal vital, avaliado por escalas.</li>
+                    </ul>
+                    <h2>Curativos e Administração de Medicamentos</h2>
+                    <p><strong>Curativos:</strong> A limpeza deve ser feita com soro fisiológico 0,9%, geralmente do centro para as bordas. A escolha da cobertura depende da avaliação da ferida.</p>
+                    <p><strong>Administração de Medicamentos:</strong> Seguir rigorosamente os <strong>"9 Certos"</strong> (Paciente, Medicamento, Via, Hora, Dose, Registro, Ação, Forma, Resposta). Dominar o cálculo de medicação é essencial.</p>
+                    <h2>Coleta de Materiais para Exames</h2>
+                    <p>A coleta adequada garante a fidedignidade dos resultados. É crucial seguir a técnica correta para cada tipo de material (sangue, urina, fezes) e garantir a identificação correta da amostra.</p>
+                `,
+                quiz: [
+                    { question: "Qual é o valor de referência para a Frequência Respiratória (FR) em um adulto em repouso?", options: ["8 a 12 rpm", "12 a 20 rpm", "22 a 30 rpm", "30 a 40 rpm"], answer: "12 a 20 rpm", explanation: "A faixa de normalidade para a frequência respiratória em adultos é de 12 a 20 respirações por minuto (rpm)." },
+                    { question: "Na administração de medicamentos, qual dos itens abaixo NÃO faz parte dos '9 Certos' da enfermagem?", options: ["Paciente Certo", "Dose Certa", "Médico Certo", "Via Certa"], answer: "Médico Certo", explanation: "Os 'Certos' focam na segurança da administração ao paciente. O 'Médico Certo' não é um dos itens da checagem padrão." },
+                    { question: "Ao realizar a limpeza de uma ferida operatória limpa, qual é a técnica correta?", options: ["Das bordas para o centro", "Da área mais contaminada para a menos contaminada", "Do centro para as bordas", "Em movimentos circulares aleatórios"], answer: "Do centro para as bordas", explanation: "A limpeza deve ser feita da área considerada mais limpa para a mais contaminada para não levar microrganismos para a ferida." },
+                    { question: "A avaliação da dor como o 5º sinal vital é importante porque:", options: ["É uma exigência apenas de hospitais particulares", "Ajuda a diagnosticar todas as doenças", "A dor é uma experiência subjetiva que impacta a recuperação e o bem-estar", "Não tem relevância clínica"], answer: "A dor é uma experiência subjetiva que impacta a recuperação e o bem-estar", explanation: "Reconhecer e tratar a dor adequadamente é fundamental para um cuidado humanizado e eficaz." },
+                    { question: "Para administrar 1000 ml de soro fisiológico em 8 horas, o gotejamento em macrogotas por minuto será de aproximadamente:", options: ["21 gts/min", "35 gts/min", "42 gts/min", "50 gts/min"], answer: "42 gts/min", explanation: "A fórmula é Volume (ml) / Tempo (h) x 3. Logo, 1000 / (8 x 3) = 1000 / 24 ≈ 41,66, arredondando para 42 gts/min." },
+                    { question: "Qual é a via de administração de medicamentos que oferece a absorção mais rápida?", options: ["Oral", "Subcutânea", "Intramuscular", "Intravenosa"], answer: "Intravenosa", explanation: "A via intravenosa (IV) ou endovenosa (EV) administra o medicamento diretamente na corrente sanguínea, proporcionando um efeito quase imediato." },
+                    { question: "Na coleta de sangue para exames, a identificação do tubo deve ser feita:", options: ["Após o envio ao laboratório", "Apenas com o nome do paciente", "Na frente do paciente, antes da coleta", "Na cabeceira do leito do paciente, após a coleta"], answer: "Na cabeceira do leito do paciente, após a coleta", explanation: "A identificação correta da amostra na presença do paciente é uma barreira de segurança crucial para evitar erros de troca de exames." },
+                    { question: "Para uma urocultura, qual tipo de amostra de urina é a mais indicada?", options: ["A primeira urina da manhã, desprezando o primeiro jato", "Qualquer urina durante o dia", "A urina de 24 horas", "Apenas o primeiro jato da micção"], answer: "A primeira urina da manhã, desprezando o primeiro jato", explanation: "A coleta do jato médio da primeira urina da manhã, após higiene, reduz a contaminação da amostra por bactérias da uretra." }
+                ]
+            },
+            infeccao: {
+                title: 'Controle de Infecção e Biossegurança',
+                content: `
+                    <h2>Controle de Infecção e Precauções</h2>
+                    <p>A <strong>higienização das mãos</strong> é a medida mais importante para prevenir Infecções Relacionadas à Assistência à Saúde (IRAS). As <strong>Precauções Padrão</strong> devem ser aplicadas a todos os pacientes.</p>
+                    <h2>Normas de Biossegurança (NR-32)</h2>
+                    <p>A NR-32 estabelece medidas de proteção aos trabalhadores da saúde. Pontos importantes: proíbe o reencape de agulhas, obriga o uso de calçados fechados e regulamenta a vacinação dos trabalhadores.</p>
+                    <h2>Desinfecção e Esterilização</h2>
+                    <ul>
+                        <li><strong>Limpeza:</strong> Remoção da sujidade. Pré-requisito para os outros processos.</li>
+                        <li><strong>Desinfecção:</strong> Elimina microrganismos, mas não necessariamente os esporos.</li>
+                        <li><strong>Esterilização:</strong> Destrói <strong>TODAS</strong> as formas de vida microbiana, incluindo esporos. O método mais comum e seguro é a <strong>autoclave</strong> (vapor sob pressão).</li>
+                    </ul>
+                `,
+                quiz: [
+                    { question: "Qual é a medida isolada mais eficaz para a prevenção das IRAS?", options: ["Uso de luvas estéreis", "Higienização das mãos", "Uso de máscaras N95", "Isolamento de todos os pacientes"], answer: "Higienização das mãos", explanation: "A higienização correta das mãos é a principal medida para quebrar a cadeia de transmissão de infecções." },
+                    { question: "Segundo a NR-32, qual prática é proibida para os trabalhadores de saúde?", options: ["Beber água no posto", "Usar relógio de pulso", "Reencapar agulhas", "Usar sapatos fechados"], answer: "Reencapar agulhas", explanation: "O reencape de agulhas é expressamente proibido pela NR-32 devido ao alto risco de acidentes perfurocortantes." },
+                    { question: "Qual processo destrói todas as formas de vida microbiana, incluindo esporos?", options: ["Limpeza", "Antissepsia", "Desinfecção de alto nível", "Esterilização"], answer: "Esterilização", explanation: "A esterilização é o único processo que garante a eliminação completa de todos os microrganismos." },
+                    { question: "As precauções baseadas na transmissão por aerossóis (ex: tuberculose) exigem o uso de qual tipo de máscara pelo profissional?", options: ["Máscara cirúrgica comum", "Máscara N95 ou PFF2", "Protetor facial (face shield)", "Nenhum tipo de máscara"], answer: "Máscara N95 ou PFF2", explanation: "Para partículas pequenas como as dos aerossóis, é necessária uma máscara com alta capacidade de filtração, como a N95 ou PFF2." },
+                    { question: "O descarte de materiais perfurocortantes (agulhas, lâminas) deve ser feito em:", options: ["Lixo comum", "Saco de lixo branco leitoso", "Caixa coletora rígida, resistente a perfurações", "Caixa de papelão"], answer: "Caixa coletora rígida, resistente a perfurações", explanation: "O uso de coletores específicos (Descarpack) é obrigatório para prevenir acidentes com os profissionais que manuseiam o lixo." },
+                    { question: "O método de esterilização mais utilizado e seguro para artigos termorresistentes em serviços de saúde é:", options: ["Estufa (calor seco)", "Fervura", "Autoclave (vapor sob pressão)", "Luz ultravioleta"], answer: "Autoclave (vapor sob pressão)", explanation: "A autoclave é eficaz, rápida, segura e de baixo custo, sendo o método de escolha para a maioria dos materiais hospitalares." }
+                ]
+            },
+            ciclosDeVida: {
+                title: 'Saúde nos Ciclos de Vida e do Trabalhador',
+                content: `
+                    <h2>Saúde da Criança e do Adolescente</h2>
+                    <p><strong>Criança:</strong> Acompanhamento do crescimento e desenvolvimento (puericultura), avaliação das curvas de crescimento, incentivo ao aleitamento materno exclusivo até os 6 meses e acompanhamento do calendário vacinal são ações centrais.</p>
+                    <p><strong>Adolescente:</strong> Abordagem de temas como puberdade, sexualidade, prevenção de Infecções Sexualmente Transmissíveis (ISTs), métodos contraceptivos, saúde mental e prevenção ao uso de álcool e outras drogas.</p>
+                    <h2>Saúde da Mulher e do Homem</h2>
+                    <p><strong>Mulher:</strong> Assistência no pré-natal de baixo risco, orientações no puerpério, coleta de exame citopatológico (Papanicolau), incentivo ao autoexame das mamas e planejamento familiar.</p>
+                    <p><strong>Homem:</strong> A Política Nacional de Atenção Integral à Saúde do Homem visa quebrar barreiras culturais e incentivar a busca por serviços de saúde, com foco na prevenção de doenças crônicas e cânceres (próstata, pênis).</p>
+                    <h2>Saúde do Idoso e do Trabalhador</h2>
+                    <p><strong>Idoso:</strong> Foco na manutenção da capacidade funcional. Utilização da Caderneta de Saúde da Pessoa Idosa, prevenção de quedas, acompanhamento de doenças crônicas e atualização vacinal (gripe, pneumonia, tétano).</p>
+                    <p><strong>Trabalhador:</strong> Prevenção de acidentes e doenças relacionadas ao trabalho (LER/DORT, PAIR). Conhecimento sobre os riscos ocupacionais e o papel da Comissão Interna de Prevenção de Acidentes (CIPA).</p>
+                `,
+                quiz: [
+                    { question: "Qual é a principal ação de enfermagem no acompanhamento da saúde da criança?", options: ["Apenas tratamento de doenças", "Acompanhamento do crescimento e desenvolvimento (puericultura)", "Prescrição de vitaminas", "Realização de cirurgias"], answer: "Acompanhamento do crescimento e desenvolvimento (puericultura)", explanation: "A puericultura é o acompanhamento periódico e sistemático da criança, visando a promoção e proteção de sua saúde." },
+                    { question: "No cuidado pré-natal de baixo risco, qual é uma atribuição importante da equipe de enfermagem?", options: ["Realizar ultrassonografias", "Prescrever o parto", "Realizar consultas de enfermagem, aferir PA, peso e altura uterina", "Apenas agendar consultas médicas"], answer: "Realizar consultas de enfermagem, aferir PA, peso e altura uterina", explanation: "A equipe de enfermagem tem papel ativo no acompanhamento da gestante, realizando procedimentos e orientações essenciais." },
+                    { question: "Para a população idosa, a vacinação é uma importante medida de prevenção. Qual vacina é recomendada anualmente para este grupo?", options: ["BCG", "Tríplice Viral", "Gripe (Influenza)", "Hepatite B"], answer: "Gripe (Influenza)", explanation: "A vacina contra a gripe é ofertada anualmente para os idosos, pois o vírus sofre mutações, sendo necessária a atualização da vacina." },
+                    { question: "O exame Papanicolau, coletado pela equipe de enfermagem, tem como principal objetivo a prevenção do câncer de:", options: ["Mama", "Ovário", "Colo de útero", "Intestino"], answer: "Colo de útero", explanation: "O exame citopatológico (Papanicolau) é o método de rastreamento para detectar lesões precursoras do câncer de colo de útero." },
+                    { question: "A principal estratégia para a prevenção de quedas em pacientes idosos hospitalizados é:", options: ["Manter o paciente sempre sedado", "Elevar as grades da cama e manter o ambiente iluminado", "Deixar objetos espalhados pelo chão", "Amarrar o paciente na cama"], answer: "Elevar as grades da cama e manter o ambiente iluminado", explanation: "Medidas simples como manter as grades elevadas, o ambiente livre de obstáculos e bem iluminado são as mais eficazes na prevenção de quedas." },
+                    { question: "A Política Nacional de Atenção Integral à Saúde do Homem tem como um de seus objetivos:", options: ["Incentivar o homem a nunca procurar o serviço de saúde", "Focar apenas em saúde reprodutiva", "Promover ações de saúde que contribuam para a compreensão da realidade masculina e o autocuidado", "Tratar apenas homens idosos"], answer: "Promover ações de saúde que contribuam para a compreensão da realidade masculina e o autocuidado", explanation: "A política busca superar as barreiras socioculturais e facilitar o acesso dos homens aos serviços de saúde." },
+                    { question: "A LER/DORT (Lesão por Esforço Repetitivo/Distúrbio Osteomuscular Relacionado ao Trabalho) é um exemplo de:", options: ["Acidente de trabalho típico", "Doença profissional", "Doença do trabalho", "Acidente de trajeto"], answer: "Doença do trabalho", explanation: "Doença do trabalho é aquela adquirida ou desencadeada em função de condições especiais em que o trabalho é realizado e com ele se relacione diretamente." }
+                ]
+            },
+            urgenciaEmergencia: {
+                title: 'Enfermagem em Urgência e Emergência',
+                content: `
+                    <h2>Conceitos e Atendimento Inicial</h2>
+                    <p><strong>Urgência:</strong> Ocorrência imprevista com risco potencial à vida, mas que não exige atendimento médico imediato. <strong>Emergência:</strong> Constatação médica de condições que implicam risco iminente de vida ou sofrimento intenso, exigindo tratamento médico imediato.</p>
+                    <p>O atendimento inicial ao politraumatizado segue o mnemônico <strong>ABCDE do Trauma</strong>:</p>
+                    <ul>
+                        <li><strong>A (Airway):</strong> Vias aéreas com controle da coluna cervical.</li>
+                        <li><strong>B (Breathing):</strong> Respiração e ventilação.</li>
+                        <li><strong>C (Circulation):</strong> Circulação com controle de hemorragias.</li>
+                        <li><strong>D (Disability):</strong> Estado neurológico (Escala de Coma de Glasgow).</li>
+                        <li><strong>E (Exposure):</strong> Exposição e controle do ambiente (prevenção da hipotermia).</li>
+                    </ul>
+                    <h2>Suporte Básico de Vida (BLS)</h2>
+                    <p>O BLS é um conjunto de medidas para vítimas de parada cardiorrespiratória (PCR). Os passos são: <strong>1.</strong> Segurança do local; <strong>2.</strong> Checar responsividade; <strong>3.</strong> Chamar por ajuda e acionar o serviço de emergência; <strong>4.</strong> Checar pulso e respiração; <strong>5.</strong> Iniciar compressões torácicas de alta qualidade (frequência de 100 a 120 por minuto, profundidade de 5 a 6 cm) e ventilações (30:2).</p>
+                    <h2>Classificação de Risco</h2>
+                    <p>Utilizada nos prontos-socorros para priorizar o atendimento. O Protocolo de Manchester é um dos mais usados, com 5 cores: <strong>Vermelho</strong> (emergência, atendimento imediato), <strong>Laranja</strong> (muito urgente), <strong>Amarelo</strong> (urgente), <strong>Verde</strong> (pouco urgente) e <strong>Azul</strong> (não urgente).</p>
+                `,
+                quiz: [
+                    { question: "No ABCDE do trauma, a letra 'C' corresponde a qual avaliação e intervenção prioritária?", options: ["Controle da coluna cervical", "Checagem da consciência", "Circulação com controle de hemorragias", "Checagem da respiração"], answer: "Circulação com controle de hemorragias", explanation: "O 'C' foca na avaliação da circulação e na identificação e controle de sangramentos graves, que são uma das principais causas de morte evitável no trauma." },
+                    { question: "Qual é a frequência e a profundidade corretas das compressões torácicas em um adulto durante o BLS?", options: ["60-80/min e 3-4 cm", "80-100/min e 4-5 cm", "100-120/min e 5-6 cm", "120-140/min e 6-7 cm"], answer: "100-120/min e 5-6 cm", explanation: "Para garantir a perfusão sanguínea adequada, as compressões devem ser rápidas (100-120/min) e profundas (5-6 cm), permitindo o retorno completo do tórax." },
+                    { question: "No Protocolo de Manchester, um paciente classificado com a cor vermelha necessita de atendimento:", options: ["Em até 60 minutos", "Imediato", "Em até 10 minutos", "Em até 120 minutos"], answer: "Imediato", explanation: "A cor vermelha indica uma situação de emergência com risco iminente de morte, exigindo atendimento imediato pela equipe." },
+                    { question: "A Escala de Coma de Glasgow é utilizada para avaliar qual parâmetro?", options: ["Nível de dor", "Nível de consciência", "Pressão arterial", "Saturação de oxigênio"], answer: "Nível de consciência", explanation: "A Escala de Coma de Glasgow avalia a resposta de abertura ocular, resposta verbal e resposta motora para determinar o nível de consciência do paciente." },
+                    { question: "Qual é a relação compressão-ventilação recomendada para um socorrista em um adulto vítima de PCR?", options: ["15 compressões para 2 ventilações", "30 compressões para 2 ventilações", "5 compressões para 1 ventilação", "10 compressões para 3 ventilações"], answer: "30 compressões para 2 ventilações", explanation: "O padrão universal recomendado pela American Heart Association para um único socorrista em adultos é de 30 compressões para 2 ventilações." },
+                    { question: "Um paciente chega ao pronto-socorro com dor torácica intensa, sudorese e falta de ar. Ele seria classificado, mais provavelmente, com qual cor no Protocolo de Manchester?", options: ["Azul", "Verde", "Amarelo", "Laranja ou Vermelho"], answer: "Laranja ou Vermelho", explanation: "Sintomas de Infarto Agudo do Miocárdio são considerados uma emergência e demandam atendimento muito urgente ou imediato (Laranja ou Vermelho)." }
+                ]
+            },
+            centroCirurgico: {
+                title: 'Assistência Cirúrgica e Instrumentação',
+                content: `
+                    <h2>Períodos Cirúrgicos</h2>
+                    <ul>
+                        <li><strong>Pré-operatório:</strong> Inicia na decisão pela cirurgia e termina com a entrada no centro cirúrgico. Cuidados: preparo do paciente (jejum, orientações), verificação de exames, checagem de consentimento informado.</li>
+                        <li><strong>Trans-operatório:</strong> Período dentro do centro cirúrgico. Cuidados: recepção do paciente, auxílio no posicionamento, montagem da sala, controle de materiais (compressas, agulhas).</li>
+                        <li><strong>Pós-operatório:</strong> Inicia na saída da sala de cirurgia. Cuidados na Sala de Recuperação Pós-Anestésica (SRPA): controle rigoroso de SSVV, avaliação da dor, observação de sangramentos e prevenção de complicações como náuseas e vômitos.</li>
+                    </ul>
+                    <h2>Fundamentos de Instrumentação Cirúrgica</h2>
+                    <p>Os <strong>Tempos Cirúrgicos</strong> são as etapas de uma cirurgia:</p>
+                    <ol>
+                        <li><strong>Diérese:</strong> Dividir, cortar, separar tecidos. Instrumentos: bisturi, tesouras.</li>
+                        <li><strong>Hemostasia:</strong> Conter o sangramento. Instrumentos: pinças hemostáticas (Kelly, Halstead/mosquito).</li>
+                        <li><strong>Exérese:</strong> A cirurgia propriamente dita, remoção de um órgão ou parte dele.</li>
+                        <li><strong>Síntese:</strong> Unir, suturar os tecidos. Instrumentos: porta-agulha, fios de sutura, pinça anatômica.</li>
+                    </ol>
+                `,
+                quiz: [
+                    { question: "Qual tempo cirúrgico corresponde à contenção de um sangramento?", options: ["Diérese", "Exérese", "Síntese", "Hemostasia"], answer: "Hemostasia", explanation: "Hemostasia é o conjunto de manobras destinadas a impedir ou coibir uma hemorragia." },
+                    { question: "O cuidado intensivo ao paciente logo após o término da cirurgia ocorre em qual local?", options: ["Na enfermaria", "No quarto do paciente", "Na Sala de Recuperação Pós-Anestésica (SRPA)", "Na sala de espera"], answer: "Na Sala de Recuperação Pós-Anestésica (SRPA)", explanation: "A SRPA é o ambiente destinado a receber o paciente no pós-operatório imediato para monitorização contínua." },
+                    { question: "Qual instrumento é utilizado para a síntese cirúrgica?", options: ["Pinça de Allis", "Tesoura de Mayo", "Porta-agulha", "Pinça Kelly"], answer: "Porta-agulha", explanation: "O porta-agulha é o instrumento específico para a apreensão da agulha de sutura, permitindo a realização da síntese dos tecidos." },
+                    { question: "A checagem do jejum do paciente e a assinatura do termo de consentimento são cuidados típicos de qual período?", options: ["Pós-operatório imediato", "Trans-operatório", "Pré-operatório", "Pós-operatório tardio"], answer: "Pré-operatório", explanation: "Esses cuidados são essenciais para garantir a segurança do paciente antes de ele entrar no centro cirúrgico." },
+                    { question: "O ato de cortar tecidos com um bisturi corresponde a qual tempo cirúrgico?", options: ["Hemostasia", "Síntese", "Diérese", "Exérese"], answer: "Diérese", explanation: "Diérese é o tempo cirúrgico destinado a dividir, cortar e separar os tecidos." }
+                ]
+            },
+            segurancaPaciente: {
+                title: 'Segurança do Paciente e Cuidado',
+                content: `
+                    <h2>Metas Internacionais de Segurança do Paciente</h2>
+                    <p>Estabelecidas pela ANVISA/OMS para prevenir incidentes nos serviços de saúde.</p>
+                    <ol>
+                        <li><strong>Identificar corretamente os pacientes:</strong> Usar no mínimo dois identificadores (ex: nome completo e data de nascimento).</li>
+                        <li><strong>Melhorar a comunicação efetiva:</strong> Garantir que as informações sejam transmitidas de forma clara e compreendida.</li>
+                        <li><strong>Melhorar a segurança de medicamentos de alta vigilância:</strong> Cuidados redobrados com medicamentos que têm alto risco de causar dano.</li>
+                        <li><strong>Assegurar cirurgia segura:</strong> Realizar a checagem (checklist) antes, durante e após o procedimento.</li>
+                        <li><strong>Higienizar as mãos para evitar infecções:</strong> A medida mais simples e eficaz.</li>
+                        <li><strong>Reduzir o risco de quedas e lesões por pressão:</strong> Avaliar o risco e implementar medidas preventivas.</li>
+                    </ol>
+                    <h2>Conforto, Bem-Estar e Registros</h2>
+                    <p><strong>Cuidado ao Paciente:</strong> Inclui higiene corporal, cuidados com a pele, mudança de decúbito (geralmente a cada 2 horas para prevenir Lesão por Pressão - LPP) e organização do ambiente.</p>
+                    <p><strong>Registro de Enfermagem:</strong> É um documento legal. Deve ser claro, objetivo, cronológico, sem rasuras e assinado. Anotar tudo o que foi feito, orientado e observado é fundamental para a continuidade do cuidado e para a segurança do profissional.</p>
+                `,
+                quiz: [
+                    { question: "Utilizar nome completo e data de nascimento para confirmar a identidade de um paciente refere-se a qual meta de segurança?", options: ["Meta 2: Melhorar a comunicação", "Meta 1: Identificar corretamente os pacientes", "Meta 6: Reduzir o risco de quedas", "Meta 4: Cirurgia segura"], answer: "Meta 1: Identificar corretamente os pacientes", explanation: "A primeira meta visa garantir que o cuidado seja prestado à pessoa certa, prevenindo erros graves." },
+                    { question: "Qual é a principal finalidade da mudança de decúbito periódica em pacientes acamados?", options: ["Melhorar o sono do paciente", "Prevenir a Lesão por Pressão (LPP)", "Facilitar a administração de medicamentos", "Diminuir a temperatura corporal"], answer: "Prevenir a Lesão por Pressão (LPP)", explanation: "A mudança de posição alivia a pressão sobre as proeminências ósseas, melhorando a circulação e prevenindo a formação de feridas." },
+                    { question: "Qual característica é essencial em um registro de enfermagem?", options: ["Ser escrito a lápis", "Conter apenas abreviações", "Ser claro, objetivo, sem rasuras e assinado", "Ser preenchido apenas no final do plantão"], answer: "Ser claro, objetivo, sem rasuras e assinado", explanation: "O registro é um documento legal e deve ser preenchido de forma a garantir sua legibilidade, fidedignidade e a identificação do profissional." },
+                    { question: "A realização do 'checklist' de cirurgia segura (verificar paciente, procedimento, local, materiais) refere-se a qual meta?", options: ["Meta 1", "Meta 3", "Meta 4", "Meta 5"], answer: "Meta 4", explanation: "A Meta 4 (Assegurar cirurgia segura) preconiza o uso de um checklist para prevenir erros durante o procedimento cirúrgico." },
+                    { question: "A estratégia 'read-back' (repetir a informação recebida para confirmação) é uma ferramenta para qual meta de segurança?", options: ["Meta 1: Identificação do paciente", "Meta 2: Melhorar a comunicação efetiva", "Meta 5: Higienização das mãos", "Meta 6: Prevenção de quedas"], answer: "Meta 2: Melhorar a comunicação efetiva", explanation: "O 'read-back' é uma técnica para garantir que a comunicação verbal, especialmente de resultados de exames ou prescrições, foi compreendida corretamente." },
+                    { question: "Qual das seguintes ações é prioritária no registro de enfermagem?", options: ["Anotar apenas os procedimentos médicos", "Anotar as informações no final do turno para não esquecer", "Registrar imediatamente após a execução do cuidado", "Usar corretivo líquido para rasuras"], answer: "Registrar imediatamente após a execução do cuidado", explanation: "O registro deve ser contemporâneo ao cuidado para garantir a precisão da informação e a segurança jurídica." }
+                ]
+            },
+            saudeColetiva: {
+                title: 'Saúde Coletiva e Educação em Saúde',
+                content: `
+                    <h2>Processo Saúde-Doença</h2>
+                    <p>É a compreensão de que a saúde não é apenas a ausência de doença, mas um estado de completo bem-estar físico, mental e social. É influenciada por múltiplos fatores: sociais, econômicos, culturais e ambientais, conhecidos como <strong>Determinantes Sociais da Saúde</strong>.</p>
+                    <h2>Doenças Crônicas e Infecto-Parasitárias</h2>
+                    <p><strong>Doenças Crônicas Não Transmissíveis (DCNT):</strong> Principal causa de morte no Brasil. Ex: Hipertensão Arterial Sistêmica (HAS) e Diabetes Mellitus (DM). O cuidado de enfermagem foca no controle, prevenção de complicações e orientação para o autocuidado.</p>
+                    <p><strong>Doenças Infecto-Parasitárias:</strong> Muitas são de notificação compulsória. Ex: Tuberculose, Hanseníase, Dengue, HIV/AIDS, Sífilis. A enfermagem atua na vigilância, tratamento supervisionado (no caso da tuberculose) e orientação sobre prevenção.</p>
+                    <h2>Educação em Saúde</h2>
+                    <p>É um processo que visa capacitar as pessoas e a comunidade a participarem ativamente na melhoria de suas condições de saúde. Não é apenas transmitir informação, mas construir conhecimento junto com a população, utilizando uma linguagem acessível e respeitando a cultura local. Pode ocorrer em consultas, grupos na UBS, salas de espera, etc.</p>
+                `,
+                quiz: [
+                    { question: "O conceito de que a saúde é influenciada por fatores como moradia, renda e escolaridade refere-se a quê?", options: ["Ao modelo biomédico", "Aos Determinantes Sociais da Saúde", "Apenas à genética", "À teoria microbiana"], answer: "Aos Determinantes Sociais da Saúde", explanation: "Os Determinantes Sociais da Saúde (DSS) são os fatores sociais, econômicos, culturais, etc., que influenciam a ocorrência de problemas de saúde." },
+                    { question: "No cuidado a um paciente com Hipertensão Arterial Sistêmica (HAS), qual é uma orientação de enfermagem fundamental?", options: ["Incentivar o consumo de alimentos ricos em sódio", "Orientar a suspensão do medicamento se a pressão normalizar", "Estimular a prática de atividade física regular e a dieta com pouco sal", "Aferir a pressão apenas uma vez por ano"], answer: "Estimular a prática de atividade física regular e a dieta com pouco sal", explanation: "O controle da HAS envolve mudanças no estilo de vida, sendo a dieta e a atividade física pilares do tratamento." },
+                    { question: "Qual o principal objetivo da Educação em Saúde?", options: ["Apenas informar sobre doenças", "Criticar os hábitos da população", "Construir conhecimento para promover o autocuidado e a autonomia das pessoas", "Obrigar as pessoas a seguirem as orientações médicas"], answer: "Construir conhecimento para promover o autocuidado e a autonomia das pessoas", explanation: "A Educação em Saúde é um processo dialógico que busca empoderar os indivíduos para que tomem decisões conscientes sobre sua saúde." },
+                    { question: "O Tratamento Diretamente Observado (TDO) é uma estratégia fundamental no controle de qual doença?", options: ["Diabetes Mellitus", "Hanseníase", "Tuberculose", "Hipertensão Arterial"], answer: "Tuberculose", explanation: "O TDO consiste na observação da ingestão dos medicamentos pelo paciente, garantindo a adesão ao tratamento e prevenindo a resistência bacteriana." },
+                    { question: "O modelo de atenção à saúde que se baseia na cura de doenças, centrado no médico e no hospital, é conhecido como:", options: ["Modelo da Promoção da Saúde", "Modelo Biomédico", "Modelo da Vigilância da Saúde", "Modelo Holístico"], answer: "Modelo Biomédico", explanation: "O modelo biomédico é historicamente focado na doença e em sua cura, em oposição ao modelo de promoção da saúde, que é mais abrangente." }
+                ]
+            },
+            agravosViolencia: {
+                title: 'Prevenção de Agravos e Violência',
+                content: `
+                    <h2>Prevenção de Agravos</h2>
+                    <p>São ações que buscam evitar a evolução de uma doença ou condição já instalada, prevenindo incapacidades ou danos maiores. Corresponde, em grande parte, à <strong>prevenção secundária e terciária</strong>. Exemplo: orientar um paciente diabético sobre o cuidado com os pés para prevenir feridas e amputações.</p>
+                    <h2>Atuação Frente a Situações de Violência</h2>
+                    <p>A violência é um problema de saúde pública. A equipe de saúde tem um papel fundamental na <strong>identificação de sinais, acolhimento da vítima e notificação do caso</strong>.</p>
+                    <h3>Notificação Compulsória:</h3>
+                    <p>A suspeita ou confirmação de violência contra crianças, adolescentes, mulheres e idosos é de <strong>notificação compulsória</strong>. A notificação é feita em ficha própria do SINAN, é <strong>sigilosa</strong> e tem como objetivo principal a vigilância epidemiológica e o acionamento da <strong>Rede de Proteção</strong> (Conselho Tutelar, CRAS, CREAS, Delegacias especializadas, etc.). A notificação <strong>não é uma denúncia policial</strong> e não rompe o sigilo profissional, pois é um dever legal.</p>
+                    <p>O acolhimento da vítima deve ser feito sem julgamentos, garantindo um ambiente seguro e de confiança para que ela possa se expressar.</p>
+                `,
+                quiz: [
+                    { question: "A orientação a um paciente hipertenso sobre o uso correto da medicação para evitar um AVC é um exemplo de qual tipo de ação?", options: ["Promoção da saúde", "Prevenção primária", "Prevenção de agravos", "Apenas tratamento"], answer: "Prevenção de agravos", explanation: "Esta ação visa evitar a complicação (agravo) de uma doença já existente, caracterizando a prevenção secundária/terciária." },
+                    { question: "Diante de uma suspeita de violência contra uma criança, qual é a conduta correta da equipe de enfermagem?", options: ["Ignorar o fato", "Confrontar o agressor", "Acolher a vítima, registrar e realizar a notificação compulsória", "Chamar a polícia imediatamente sem notificar"], answer: "Acolher a vítima, registrar e realizar a notificação compulsória", explanation: "A conduta ética e legal envolve o acolhimento, o registro detalhado e a notificação sigilosa para acionar a rede de proteção." },
+                    { question: "A notificação de um caso de violência é, antes de tudo:", options: ["Uma denúncia policial", "Uma quebra de sigilo profissional", "Um instrumento para a vigilância em saúde e proteção à vítima", "Um documento de uso exclusivo do médico"], answer: "Um instrumento para a vigilância em saúde e proteção à vítima", explanation: "A notificação permite mapear a ocorrência da violência e acionar os serviços competentes para proteger a vítima." },
+                    { question: "O primeiro passo no atendimento a uma vítima de violência no serviço de saúde deve ser:", options: ["O preenchimento da ficha de notificação", "O acolhimento em um ambiente seguro e privativo", "O interrogatório sobre o agressor", "A coleta de exames"], answer: "O acolhimento em um ambiente seguro e privativo", explanation: "O acolhimento é fundamental para estabelecer um vínculo de confiança e garantir que a vítima se sinta segura para relatar a situação." }
+                ]
+            },
+            pni: {
+                title: 'Programa Nacional de Imunização (PNI)',
+                content: `
+                    <h2>O Programa Nacional de Imunização (PNI)</h2>
+                    <p>Criado em 1973, o PNI visa controlar, erradicar e eliminar doenças imunopreveníveis. É referência mundial pela sua gratuidade e acesso universal.</p>
+                    <h2>Calendário Nacional de Vacinação</h2>
+                    <p>O PNI define calendários para cada fase da vida. É <strong>fundamental</strong> conhecer o calendário vigente. Principais vacinas do calendário infantil:</p>
+                    <ul>
+                        <li><strong>Ao nascer:</strong> BCG e Hepatite B.</li>
+                        <li><strong>2, 4, 6 meses:</strong> Pentavalente, VIP (Poliomielite), Pneumo 10, Rotavírus (aos 2 e 4 meses).</li>
+                        <li><strong>12 meses:</strong> Tríplice Viral (SCR) e reforços.</li>
+                        <li><strong>15 meses:</strong> DTP, VOP (Poliomielite), Hepatite A, Tetra Viral.</li>
+                    </ul>
+                    <h2>Rede de Frio</h2>
+                    <p>É o sistema de armazenamento e transporte das vacinas em temperatura adequada. A maioria deve ser mantida entre <strong>+2°C e +8°C</strong>. O controle de temperatura é rigoroso e diário. Vacinas não devem ser congeladas nem colocadas na porta da geladeira.</p>
+                `,
+                quiz: [
+                    { question: "Quais vacinas são recomendadas para serem administradas ao nascer, segundo o PNI?", options: ["Pentavalente e Rotavírus", "BCG e Hepatite B", "Tríplice Viral e Febre Amarela", "DTP e VOP"], answer: "BCG e Hepatite B", explanation: "O calendário nacional recomenda a administração da vacina BCG (dose única) e a primeira dose da vacina contra Hepatite B nas primeiras horas de vida." },
+                    { question: "Qual é a faixa de temperatura ideal para a conservação da maioria das vacinas na Rede de Frio?", options: ["-10°C a 0°C", "0°C a +5°C", "+2°C a +8°C", "+10°C a +15°C"], answer: "+2°C a +8°C", explanation: "Manter a temperatura entre +2°C e +8°C é crucial para preservar a potência e a segurança da maioria das vacinas." },
+                    { question: "A vacina Pentavalente protege contra quais doenças?", options: ["Difteria, Tétano, Coqueluche, Sarampo e Rubéola", "Difteria, Tétano, Coqueluche, Haemophilus influenzae tipo b e Hepatite B", "Poliomielite, Sarampo, Caxumba, Rubéola e Varicela", "Meningite C, Pneumonia, Tétano, Difteria e Hepatite A"], answer: "Difteria, Tétano, Coqueluche, Haemophilus influenzae tipo b e Hepatite B", explanation: "A vacina Pentavalente (DTP+Hib+HB) oferece proteção contra cinco doenças em uma única aplicação." },
+                    { question: "A vacina contra o Rotavírus tem uma particularidade quanto à idade para administração da primeira dose. Qual é a idade máxima?", options: ["6 meses e 15 dias", "1 ano", "3 meses e 15 dias", "5 meses"], answer: "3 meses e 15 dias", explanation: "A primeira dose da vacina Rotavírus deve ser feita, impreterivelmente, até os 3 meses e 15 dias de idade devido ao risco de invaginação intestinal." },
+                    { question: "O que deve ser feito com um frasco de vacina multidose após aberto?", options: ["Pode ser usado por tempo indeterminado", "Deve ser descartado imediatamente", "Deve ser anotada a data de abertura e respeitado o prazo de validade indicado pelo fabricante ou PNI", "Deve ser congelado para durar mais"], answer: "Deve ser anotada a data de abertura e respeitado o prazo de validade indicado pelo fabricante ou PNI", explanation: "O controle do prazo de validade após a abertura é crucial para garantir a eficácia e segurança da vacina." }
+                ]
+            },
+            legislacao: {
+                title: 'Legislação e Ética Profissional',
+                content: `
+                    <h2>Estatuto dos Servidores de Biguaçu (LC nº 53/2012)</h2>
+                    <p>Este documento estabelece os direitos e deveres dos servidores do município. É <strong>leitura obrigatória</strong>.</p>
+                    <h3>Pontos Chave:</h3>
+                    <ul>
+                        <li><strong>Estágio Probatório:</strong> Período de <strong>3 anos</strong> para adquirir a <strong>estabilidade</strong>.</li>
+                        <li><strong>Direitos:</strong> Férias, licenças, adicionais.</li>
+                        <li><strong>Deveres:</strong> Assiduidade, zelo, urbanidade.</li>
+                        <li><strong>Proibições:</strong> Valer-se do cargo para proveito pessoal, ausentar-se sem autorização.</li>
+                        <li><strong>Regime Disciplinar:</strong> Penalidades como advertência, suspensão e demissão, apuradas via Processo Administrativo Disciplinar (PAD).</li>
+                    </ul>
+                    <h2>Ética Profissional e Relações Humanas</h2>
+                    <p>A ética no serviço público baseia-se nos princípios do <strong>LIMPE</strong> (Legalidade, Impessoalidade, Moralidade, Publicidade, Eficiência). O <strong>Código de Ética dos Profissionais de Enfermagem</strong> (Res. COFEN 564/2017) norteia a conduta, enfatizando o respeito à vida, a competência, o sigilo profissional e as boas relações humanas no trabalho.</p>
+                `,
+                quiz: [
+                    { question: "De acordo com o Estatuto dos Servidores de Biguaçu, qual é o período do estágio probatório?", options: ["1 ano", "2 anos", "3 anos", "5 anos"], answer: "3 anos", explanation: "O estágio probatório, período de avaliação do servidor, tem a duração de 3 anos de efetivo exercício." },
+                    { question: "Qual dos seguintes princípios NÃO faz parte do mnemônico 'LIMPE' da Administração Pública?", options: ["Legalidade", "Moralidade", "Pessoalidade", "Eficiência"], answer: "Pessoalidade", explanation: "O princípio correto é a IMPESSOALIDADE. Os princípios são: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência." },
+                    { question: "O dever de manter segredo sobre informações do paciente refere-se a qual princípio ético?", options: ["Beneficência", "Autonomia do paciente", "Sigilo Profissional", "Competência técnica"], answer: "Sigilo Profissional", explanation: "O sigilo profissional é um dos pilares da ética em enfermagem, protegendo a privacidade dos pacientes." },
+                    { question: "Segundo o Código de Ética de Enfermagem, negar assistência de enfermagem em situação de urgência ou emergência é considerado:", options: ["Um direito do profissional", "Uma infração ética", "Uma conduta recomendável", "Uma decisão do gestor"], answer: "Uma infração ética", explanation: "É dever do profissional de enfermagem prestar assistência em situações que representem risco à vida, sendo a recusa uma infração grave." },
+                    { question: "De acordo com o Estatuto dos Servidores, um dos deveres do servidor público é:", options: ["Usar o cargo para benefício próprio", "Ser leal às instituições a que servir", "Faltar ao serviço sem justificativa", "Criticar as autoridades publicamente"], answer: "Ser leal às instituições a que servir", explanation: "A lealdade institucional é um dos deveres fundamentais previstos na maioria dos estatutos de servidores." },
+                    { question: "A recusa em executar uma prescrição medicamentosa em caso de identificação de erro ou ilegibilidade é:", options: ["Negligência", "Um direito e dever do profissional de enfermagem para segurança do paciente", "Imprudência", "Uma infração ética"], answer: "Um direito e dever do profissional de enfermagem para segurança do paciente", explanation: "O Código de Ética respalda o profissional a questionar e se recusar a cumprir ordens que coloquem o paciente em risco." }
+                ]
+            }
+        };
+
+        // --- APP LOGIC ---
+        const app = {
+            currentTopic: null,
+            init() {
+                this.cacheElements();
+                this.renderMainMenu();
+                this.bindEvents();
+            },
+            cacheElements() {
+                this.mainMenu = document.getElementById('main-menu');
+                this.topicGrid = document.getElementById('topic-grid');
+                this.studyModule = document.getElementById('study-module');
+                this.topicTitle = document.getElementById('topic-title');
+                this.topicContent = document.getElementById('topic-content');
+                this.quizForm = document.getElementById('quiz-form');
+                this.quizContainer = document.getElementById('quiz-container');
+                this.backToMenuBtn = document.getElementById('back-to-menu-btn');
+                this.resultsModal = document.getElementById('results-modal');
+                this.resultsContent = document.getElementById('results-content');
+                this.retryQuizBtn = document.getElementById('retry-quiz-btn');
+                this.menuFromResultsBtn = document.getElementById('menu-from-results-btn');
+            },
+            bindEvents() {
+                this.backToMenuBtn.addEventListener('click', () => this.showMainMenu());
+                this.quizForm.addEventListener('submit', (e) => this.handleSubmit(e));
+                this.retryQuizBtn.addEventListener('click', () => this.retryQuiz());
+                this.menuFromResultsBtn.addEventListener('click', () => this.closeResultsAndShowMenu());
+            },
+            renderMainMenu() {
+                this.topicGrid.innerHTML = '';
+                const topicColors = ['bg-blue-500', 'bg-teal-500', 'bg-indigo-500', 'bg-sky-500', 'bg-emerald-500', 'bg-purple-500', 'bg-pink-500', 'bg-orange-500', 'bg-cyan-500', 'bg-lime-500', 'bg-fuchsia-500'];
+                let colorIndex = 0;
+
+                for (const key in studyData) {
+                    const topic = studyData[key];
+                    const card = document.createElement('div');
+                    card.className = `p-6 rounded-xl shadow-lg text-white cursor-pointer hover:scale-105 transform transition-transform duration-300 ${topicColors[colorIndex % topicColors.length]}`;
+                    card.innerHTML = `<h3 class="text-xl font-bold">${topic.title}</h3>`;
+                    card.addEventListener('click', () => this.loadTopic(key));
+                    this.topicGrid.appendChild(card);
+                    colorIndex++;
+                }
+            },
+            loadTopic(key) {
+                this.currentTopic = key;
+                const topic = studyData[key];
+                this.topicTitle.textContent = topic.title;
+                this.topicContent.innerHTML = topic.content;
+                this.loadQuiz(key);
+                this.mainMenu.classList.add('hidden');
+                this.studyModule.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            },
+            loadQuiz(key) {
+                const quizData = studyData[key].quiz;
+                this.quizContainer.innerHTML = '';
+                quizData.forEach((q, index) => {
+                    const questionBlock = document.createElement('div');
+                    questionBlock.className = 'p-4 border border-gray-200 rounded-lg bg-gray-50';
+                    
+                    let optionsHTML = '';
+                    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+                    shuffledOptions.forEach(option => {
+                        optionsHTML += `
+                            <label class="flex items-center p-3 rounded-md hover:bg-blue-100 cursor-pointer transition-colors">
+                                <input type="radio" name="question${index}" value="${option}" class="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                <span>${option}</span>
+                            </label>
+                        `;
+                    });
+
+                    questionBlock.innerHTML = `
+                        <p class="font-semibold mb-3">${index + 1}. ${q.question}</p>
+                        <div class="space-y-2">${optionsHTML}</div>
+                    `;
+                    this.quizContainer.appendChild(questionBlock);
+                });
+            },
+            handleSubmit(e) {
+                e.preventDefault();
+                const quizData = studyData[this.currentTopic].quiz;
+                let score = 0;
+                const results = [];
+
+                quizData.forEach((q, index) => {
+                    const formData = new FormData(this.quizForm);
+                    const userAnswer = formData.get(`question${index}`);
+                    const isCorrect = userAnswer === q.answer;
+                    if (isCorrect) {
+                        score++;
+                    }
+                    results.push({
+                        question: q.question,
+                        userAnswer,
+                        correctAnswer: q.answer,
+                        isCorrect,
+                        explanation: q.explanation
+                    });
+                });
+
+                this.showResults(score, quizData.length, results);
+            },
+            showResults(score, total, results) {
+                let resultsHTML = `<div class="text-center mb-6">
+                    <p class="text-2xl font-bold ${score / total >= 0.7 ? 'text-green-600' : 'text-red-600'}">
+                        Você acertou ${score} de ${total} questões!
+                    </p>
+                </div>`;
+                
+                results.forEach((res, index) => {
+                    const resultClass = res.isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50';
+                    const icon = res.isCorrect 
+                        ? `<span class="text-green-600 font-bold">✔ Correto</span>`
+                        : `<span class="text-red-600 font-bold">✖ Incorreto</span>`;
+
+                    resultsHTML += `
+                        <div class="p-4 border-l-4 ${resultClass} rounded-r-lg mb-4">
+                            <p class="font-semibold mb-2">${index + 1}. ${res.question}</p>
+                            <p class="text-sm">Sua resposta: <span class="font-medium">${res.userAnswer || 'Não respondida'}</span> ${icon}</p>
+                            ${!res.isCorrect ? `<p class="text-sm">Resposta correta: <span class="font-medium">${res.correctAnswer}</span></p>` : ''}
+                            <p class="text-sm mt-2 pt-2 border-t border-gray-300"><strong>Explicação:</strong> ${res.explanation}</p>
+                        </div>
+                    `;
+                });
+
+                this.resultsContent.innerHTML = resultsHTML;
+                this.resultsModal.classList.remove('hidden');
+            },
+            retryQuiz() {
+                this.resultsModal.classList.add('hidden');
+                this.loadTopic(this.currentTopic);
+            },
+            closeResultsAndShowMenu() {
+                this.resultsModal.classList.add('hidden');
+                this.showMainMenu();
+            },
+            showMainMenu() {
+                this.studyModule.classList.add('hidden');
+                this.mainMenu.classList.remove('hidden');
+                this.currentTopic = null;
+            }
+        };
+
+        // Start the app
+        app.init();
+    </script>
+</body>
+</html>
